@@ -13,7 +13,7 @@ const int DIGITS_X{44};
 const int DIGITS_Y{20};
 const int SPACING_X{4};
 const int SPACING_Y{4};
-const double SCALE{1};
+const double SCALE{1.0};
 const std::string VIDEO_FILE{"bad_apple.mp4"};
 const std::string COLOR_MODE{"BINARY"}; // BINARY, MONO, FULL
 
@@ -141,7 +141,7 @@ int main()
             sf::Color color;
             if (COLOR_MODE == "BINARY")
             {
-                color = (pxValue[2] + pxValue[1] + pxValue[0]) / 3.0 > 127 ? ON : OFF;
+                color = (pxValue[2] + pxValue[1] + pxValue[0]) / 3.0 > 127.0 ? ON : OFF;
             }
             else if (COLOR_MODE == "MONO")
             {
