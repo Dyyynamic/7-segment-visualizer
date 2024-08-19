@@ -123,7 +123,7 @@ int main()
             }
         }
 
-        window.clear();
+        window.clear(BG);
 
         video >> frame;
         if (frame.empty())
