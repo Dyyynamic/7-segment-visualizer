@@ -14,7 +14,7 @@ const int DIGITS_Y{20};
 const int SPACING_X{4};
 const int SPACING_Y{4};
 const double SCALE{1.0};
-const std::string VIDEO_FILE{"bad_apple.mp4"};
+const std::string VIDEO_FILE{"videos/bad_apple.mp4"};
 const std::string COLOR_MODE{"BINARY"}; // BINARY, MONO, FULL
 
 // Colors
