@@ -2,6 +2,7 @@
 #include <array>
 // #include <iostream>
 #include <opencv2/opencv.hpp>
+#include <string>
 #include <tuple>
 #include <vector>
 
@@ -14,6 +15,7 @@ const int SPACING_X{4};
 const int SPACING_Y{4};
 const double SCALE{1};
 const std::string VIDEO_FILE{"bad_apple.mp4"};
+const std::string COLOR_MODE{"BINARY"}; // BINARY, MONO, FULL
 
 // Colors
 const sf::Color BG(0, 0, 0);
@@ -135,7 +137,24 @@ int main()
             auto videoCoordinate{videoCoordinates[i]};
 
             const cv::Vec3b pxValue = frame.at<cv::Vec3b>(videoCoordinate.y, videoCoordinate.x);
-            shape.setFillColor((pxValue[0] + pxValue[1] + pxValue[2]) / 3.0 > 127.0 ? ON : OFF);
+
+            sf::Color color;
+            if (COLOR_MODE == "BINARY")
+            {
+                color = (pxValue[2] + pxValue[1] + pxValue[0]) / 3.0 > 127 ? ON : OFF;
+            }
+            else if (COLOR_MODE == "MONO")
+            {
+                const double value{(pxValue[2] + pxValue[1] + pxValue[0]) / (255.0 * 3.0)};
+                color = sf::Color((ON.r - OFF.r) * value + OFF.r, (ON.g - OFF.g) * value + OFF.g,
+                                  (ON.b - OFF.b) * value + OFF.b);
+            }
+            else if (COLOR_MODE == "FULL")
+            {
+                color = sf::Color(pxValue[2], pxValue[1], pxValue[0]);
+            }
+
+            shape.setFillColor(color);
             window.draw(shape);
         }
 
