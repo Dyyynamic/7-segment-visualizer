@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <array>
-// #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <tuple>
@@ -92,7 +91,7 @@ initializeSegments(std::array<std::array<sf::Vector2f, SEGMENT_COLS>, SEGMENT_RO
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "7 Segment Visualizer");
+    sf::RenderWindow window(sf::VideoMode({WIDTH, HEIGHT}), "7 Segment Visualizer");
 
     cv::VideoCapture video(VIDEO_FILE);
 
@@ -114,10 +113,9 @@ int main()
 
     while (window.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
+        while (const std::optional event = window.pollEvent())
         {
-            if (event.type == sf::Event::Closed)
+            if (event->is<sf::Event::Closed>())
             {
                 window.close();
             }
@@ -131,7 +129,7 @@ int main()
             break;
         }
 
-        for (int i{0}; i < shapes.size(); i++)
+        for (size_t i{0}; i < shapes.size(); i++)
         {
             auto shape{shapes[i]};
             auto videoCoordinate{videoCoordinates[i]};
@@ -162,9 +160,6 @@ int main()
 
         const sf::Time elapsed = clock.getElapsedTime();
         const sf::Time sleepTime = sf::seconds(frameTime) - elapsed;
-
-        // For debugging
-        // std::cout << sleepTime.asMilliseconds() << std::endl;
 
         if (sleepTime > sf::Time::Zero)
         {
